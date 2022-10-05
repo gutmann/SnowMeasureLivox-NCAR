@@ -8,6 +8,7 @@
 
 sudo apt-get update
 sudo apt-get install cmake
+# sudo apt-get install git
 
 # To Install a miniconda environment:
 # wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-aarch64.sh
@@ -32,7 +33,28 @@ pyver=$(python -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
 if [ "$pyver" -lt 38 ]; then
     echo "WARNING python version is too low: >3.8 required"
     python -V
-    exit
+    #Version less than 3.8, must upgrade
+	echo "Installed python version less than 3.8.0, must upgrade"
+	echo "This is going to take a minute, please be patient..."
+	sudo apt-get update
+	sudo apt-get install -y build-essential tk-dev libncurses5-dev libncursesw5-dev libreadline6-dev libdb5.3-dev libgdbm-dev\
+	libsqlite3-dev libssl-dev libbz2-dev libexpat1-dev liblzma-dev zlib1g-dev libffi-dev
+
+	wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tar.xz
+	tar xf Python-3.8.0.tar.xz
+	cd Python-3.8.0
+	./configure --enable-optimizations --prefix=/usr
+	make
+
+	sudo make altinstall
+	cd ..
+	sudo rm -r Python-3.8.0
+	rm Python-3.8.0.tar.xz
+	. ~/.bashrc
+
+	sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
+	echo "If God loves you, you should see Python 3.8.0 come up next."
+	python -V
 fi
 
 # Installs necessary Python libraries
