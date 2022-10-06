@@ -4,9 +4,7 @@ Python device driver and point cloud processing software for parallel data colle
 ## Simple setup
 ```
 git clone https://github.com/gutmann/SnowMeasureLivox-NCAR.git
-cp SnowMeasureLivox-NCAR/setup_pi.sh ./
-chmod +x setup_pi.sh
-./setup_pi.sh
+./SnowMeasureLivox-NCAR/setup_pi.sh
 ```
 
 <hr>
