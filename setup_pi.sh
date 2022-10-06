@@ -36,33 +36,40 @@ if [ "$pyver" -lt 38 ]; then
     #Version less than 3.8, must upgrade
 	echo "Installed python version less than 3.8.0, must upgrade"
 	echo "This is going to take a minute, please be patient..."
-	sudo apt-get update
 	sudo apt-get install -y build-essential tk-dev libncurses5-dev libncursesw5-dev libreadline6-dev libdb5.3-dev libgdbm-dev\
 	libsqlite3-dev libssl-dev libbz2-dev libexpat1-dev liblzma-dev zlib1g-dev libffi-dev
 
-	wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tar.xz
-	tar xf Python-3.8.0.tar.xz
-	cd Python-3.8.0
+    python_version="3.8.14"
+	wget https://www.python.org/ftp/python/${python_version}/Python-${python_version}.tar.xz
+	tar xf Python-${python_version}.tar.xz
+	cd Python-${python_version}
 	./configure --enable-optimizations --prefix=/usr
 	make
 
 	sudo make altinstall
 	cd ..
-	sudo rm -r Python-3.8.0
-	rm Python-3.8.0.tar.xz
+	# sudo rm -r Python-${python_version}
+	# rm Python-${python_version}.tar.xz
 	. ~/.bashrc
 
 	sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
-	echo "If God loves you, you should see Python 3.8.0 come up next."
+	echo "If God loves you, you should see Python ${python_version} come up next."
 	python -V
 fi
 
 # Installs necessary Python libraries
 echo "Installing Python packages necessary for SnowMeasureLivox-NCAR..."
-sudo pip3 install adafruit-circuitpython-gps
-sudo pip3 install crcmod
-sudo pip3 install laspy
-sudo pip3 install tqdm
+pip install numpy=1.22.4
+pip install adafruit-circuitpython-gps
+pip install crcmod
+pip install laspy
+pip install tqdm
+
+# sudo pip3 install adafruit-circuitpython-gps
+# sudo pip3 install crcmod
+# sudo pip3 install laspy
+# sudo pip3 install tqdm
+
 
 # OpenPyLivox
 git clone https://github.com/ryan-brazeal-ufl/OpenPyLivox.git
@@ -82,5 +89,13 @@ echo -e "All done. Please test:\n \thardware UART,\n \tpython -c 'from multiproc
 # Append to dhcpcd.conf lines to configure static IP address for ethernet interface
 # Refer to Livox documentation
 sudo echo -e "# Following lines implement static IP configuration for ethernet interface \ninterface eth0 \nstatic ip_address=198.168.1.50 \nstatic netmask=255.255.255.0" >> /etc/dhcpcd.conf
-ifconfig eth0 static 198.168.1.50
-echo "now run raspi-config?"
+# ifconfig eth0 static 198.168.1.50
+# echo "now run raspi-config?"
+cd SnowMeasureLivox-NCAR
+mkdir build
+cp src/* build/
+cp config/* build/
+cp SnowMeasureLivox.py build/
+cd build
+ls -lh
+echo "run python ./SnowMeasureLivox.py"
