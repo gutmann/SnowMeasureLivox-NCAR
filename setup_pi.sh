@@ -34,42 +34,40 @@ if [ "$pyver" -lt 38 ]; then
     echo "WARNING python version is too low: >3.8 required"
     python -V
     #Version less than 3.8, must upgrade
-	echo "Installed python version less than 3.8.0, must upgrade"
-	echo "This is going to take a minute, please be patient..."
-	sudo apt-get install -y build-essential tk-dev libncurses5-dev libncursesw5-dev libreadline6-dev libdb5.3-dev libgdbm-dev\
-	libsqlite3-dev libssl-dev libbz2-dev libexpat1-dev liblzma-dev zlib1g-dev libffi-dev
+    echo "Installed python version less than 3.8.0, must upgrade"
+    echo "This is going to take a minute, please be patient..."
+    sudo apt-get install -y build-essential tk-dev libncurses5-dev libncursesw5-dev libreadline6-dev libdb5.3-dev libgdbm-dev\
+    libsqlite3-dev libssl-dev libbz2-dev libexpat1-dev liblzma-dev zlib1g-dev libffi-dev
 
     python_version="3.8.14"
-	wget https://www.python.org/ftp/python/${python_version}/Python-${python_version}.tar.xz
-	tar xf Python-${python_version}.tar.xz
-	cd Python-${python_version}
-	./configure --enable-optimizations --prefix=/usr
-	make
+    wget https://www.python.org/ftp/python/${python_version}/Python-${python_version}.tar.xz
+    tar xf Python-${python_version}.tar.xz
+    cd Python-${python_version}
+    ./configure --enable-optimizations --prefix=/usr
+    make
 
-	sudo make altinstall
-	cd ..
-	# sudo rm -r Python-${python_version}
-	# rm Python-${python_version}.tar.xz
-	. ~/.bashrc
+    sudo make altinstall
+    cd ..
+    # sudo rm -r Python-${python_version}
+    # rm Python-${python_version}.tar.xz
+    . ~/.bashrc
 
-	sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
-	echo "If God loves you, you should see Python ${python_version} come up next."
-	python -V
+    sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
+    echo "You should see Python ${python_version} come up next."
+    python -V
 fi
 
 # Installs necessary Python libraries
 echo "Installing Python packages necessary for SnowMeasureLivox-NCAR..."
-pip install numpy=1.22.4
+# pip install numpy=1.22.4 # on some versions of raspian you have to specify this explicitly
+pip install numpy
+pip install matplotlib
+pip install xarray netCDF4 bottleneck
 pip install adafruit-circuitpython-gps
 pip install crcmod
 pip install laspy
 pip install tqdm
 pip install serial
-
-# sudo pip3 install adafruit-circuitpython-gps
-# sudo pip3 install crcmod
-# sudo pip3 install laspy
-# sudo pip3 install tqdm
 
 
 # OpenPyLivox
@@ -89,8 +87,8 @@ echo -e "All done. Please test:\n \thardware UART,\n \tpython -c 'from multiproc
 
 # Append to dhcpcd.conf lines to configure static IP address for ethernet interface
 # Refer to Livox documentation
-sudo echo -e "# Following lines implement static IP configuration for ethernet interface \ninterface eth0 \nstatic ip_address=198.168.1.50 \nstatic netmask=255.255.255.0" >> /etc/dhcpcd.conf
-# ifconfig eth0 static 198.168.1.50
+sudo echo -e "# Following lines implement static IP configuration for ethernet interface \ninterface eth0 \nstatic ip_address=192.168.1.50 \nstatic netmask=255.255.255.0" >> /etc/dhcpcd.conf
+# ifconfig eth0 static 192.168.1.50
 # echo "now run raspi-config?"
 cd SnowMeasureLivox-NCAR
 mkdir build
@@ -98,5 +96,5 @@ cp src/* build/
 cp config/* build/
 cp SnowMeasureLivox.py build/
 cd build
-ls -lh
+echo "cd "`pwd`
 echo "run > python ./SnowMeasureLivox.py"
