@@ -64,6 +64,7 @@ pip install adafruit-circuitpython-gps
 pip install crcmod
 pip install laspy
 pip install tqdm
+pip install serial
 
 # sudo pip3 install adafruit-circuitpython-gps
 # sudo pip3 install crcmod
@@ -98,4 +99,4 @@ cp config/* build/
 cp SnowMeasureLivox.py build/
 cd build
 ls -lh
-echo "run python ./SnowMeasureLivox.py"
+echo "run > python ./SnowMeasureLivox.py"
