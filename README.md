@@ -1,12 +1,20 @@
 # SnowMeasureLivox-NCAR
 Python device driver and point cloud processing software for parallel data collection and processing with Livox Mid-70 LiDAR sensor. Intended for use in remote snow measurement using a Raspberry Pi. Developed for NCAR|UCAR.
 
+## Simple setup
+```
+git clone https://github.com/gutmann/SnowMeasureLivox-NCAR.git
+cp SnowMeasureLivox-NCAR/setup_pi.sh ./
+chmod +x setup_pi.sh
+./setup_pi.sh
+```
+
 <hr>
 
 ## Prerequisites
 * Tested on Raspberry Pi 3,4 with standard Raspian (Raspberry Pi OS). Python 3.8+ required.
 * For GPS timestamp data labelling, Adafruit Ultimate GPS v3 module
-* Developed using the Livox Mid-70. See https://www.livoxtech.com/mid-70/downloads for LiDAR User Manual 
+* Developed using the Livox Mid-70. See https://www.livoxtech.com/mid-70/downloads for LiDAR User Manual
 
 ## Preparation
 A corresponding Raspberry Pi OS has been made to make initial steps simple. If this image is not used directly, a few steps must be taken to configure the Raspberry Pi:
