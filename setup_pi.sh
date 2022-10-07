@@ -93,15 +93,15 @@ sudo echo "# Following lines implement static IP configuration for ethernet inte
 
 echo "To setup wlan access point, run: ./SnowMeasureLivox-NCAR/setup_WLAN-AP.sh"
 
-#All done
-echo "All done. Please test:\n \thardware UART,\n \tpython -c 'from multiprocessing import shared_memory'\n \trun SnowMeasureLivox.py\n to confirm"
-
 cd SnowMeasureLivox-NCAR
 mkdir build
 cp src/* build/
 cp config/* build/
 cp SnowMeasureLivox.py build/
 cd build
+
+# All done
+echo "All done. Please test:\n \thardware UART,\n \tpython -c 'from multiprocessing import shared_memory'\n \trun SnowMeasureLivox.py\n to confirm"
 echo "cd "`pwd`
 echo "python ./SnowMeasureLivox.py"
 echo "  or "
