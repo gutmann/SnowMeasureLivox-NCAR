@@ -6,9 +6,9 @@
 # chmod +x setup_pi.sh
 # ./setup_pi.sh
 
-sudo apt-get update
-sudo apt-get install cmake
-# sudo apt-get install git
+sudo apt-get update -y
+sudo apt-get install -y cmake
+# sudo apt-get install -y git
 
 # To Install a miniconda environment:
 # wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-aarch64.sh
