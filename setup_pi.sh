@@ -68,7 +68,7 @@ pip install adafruit-circuitpython-gps
 pip install crcmod
 pip install laspy
 pip install tqdm
-pip install serial
+pip install pyserial
 
 
 # OpenPyLivox
@@ -80,6 +80,7 @@ cd ../
 # Disable serial console and enable access to hardware UART for GPS
 # Hard to find documentation on using raspi-config non-interactively
 # use argument 0 to enable serial console, 1 to disable, and 3 to disable AND enable hardware UART
+
 echo "Disabling serial console and enabling hardware UART..."
 sudo raspi-config nonint do_serial 2
 
@@ -109,3 +110,4 @@ echo " "
 echo "./lidar_lvx_sample"
 echo " "
 echo "To setup wlan access point, run: ./SnowMeasureLivox-NCAR/setup_WLAN-AP.sh"
+echo "To setup gps time, run: ./SnowMeasureLivox-NCAR/setup_gpsd.sh

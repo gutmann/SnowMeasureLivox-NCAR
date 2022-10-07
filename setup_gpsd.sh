@@ -1,11 +1,12 @@
 #!/bin/sh
 
 # directions from https://n4bfr.com/2021/11/raspberry-pi-gps-time-server-with-bullseye/
-sudo apt-get install gpsd gpsd-clients gpsd-tools
+sudo apt-get install -y gpsd gpsd-clients gpsd-tools
 
-# sudo cat /dev/ttyAMA0
+# sudo cat /dev/ttyS0
 
-sudo gpsd /dev/ttyAMA0 -n -F /var/run/gpsd.sock
+sudo killall gpsd
+sudo gpsd /dev/ttyS0 -n -F /var/run/gpsd.sock
 
 # gpsmon
 
@@ -35,7 +36,7 @@ sudo systemctl stop gpsd.socket
 sudo systemctl disable gpsd.socket
 sudo ln -s /lib/systemd/system/gpsd.service /etc/systemd/system/multi-user.target.wants/
 
-sudo apt-get install ntp
+sudo apt-get install -y ntp
 
 sudo systemctl stop systemd-timesyncd
 sudo systemctl disable systemd-timesyncd
@@ -45,7 +46,8 @@ sudo service ntp startntp q -
 # test that it is using network time servers
 # ntpq -p -c rl
 
-cat <<EOF >>/etc/ntp.conf
+cp /etc/ntp.conf ./ntp.conf
+cat <<EOF >>ntp.conf
 # Kernel-mode PPS reference-clock for the precise seconds
 # server 127.127.22.0 minpoll 4 maxpoll 4
 # fudge 127.127.22.0 refid PPS
@@ -54,6 +56,7 @@ cat <<EOF >>/etc/ntp.conf
 server 127.127.28.0 minpoll 4 maxpoll 4 iburst prefer
 fudge 127.127.28.0 time1 +0.105 flag1 1 refid GPS
 EOF
+sudo cp ./ntp.conf /etc/ntp.conf
 
 sudo service ntp restart
 
