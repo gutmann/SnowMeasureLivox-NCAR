@@ -25,6 +25,7 @@ cd build
 cmake ..
 make
 cd ../../
+ln -s Livox-SDK/build/sample/lidar_lvx_file/lidar_lvx_sample
 
 echo "Python version installed:"
 python -V
@@ -62,7 +63,7 @@ echo "Installing Python packages necessary for SnowMeasureLivox-NCAR..."
 # pip install numpy=1.22.4 # on some versions of raspian you have to specify this explicitly
 pip install numpy
 pip install matplotlib
-pip install xarray netCDF4 bottleneck
+# pip install xarray netCDF4 bottleneck
 pip install adafruit-circuitpython-gps
 pip install crcmod
 pip install laspy
@@ -82,14 +83,19 @@ cd ../
 echo "Disabling serial console and enabling hardware UART..."
 sudo raspi-config nonint do_serial 2
 
-#All done
-echo -e "All done. Please test:\n \thardware UART,\n \tpython -c 'from multiprocessing import shared_memory'\n \trun SnowMeasureLivox.py\n to confirm"
 
 # Append to dhcpcd.conf lines to configure static IP address for ethernet interface
 # Refer to Livox documentation
-sudo echo -e "# Following lines implement static IP configuration for ethernet interface \ninterface eth0 \nstatic ip_address=192.168.1.50 \nstatic netmask=255.255.255.0" >> /etc/dhcpcd.conf
+sudo echo "# Following lines implement static IP configuration for ethernet interface \ninterface eth0\n  static ip_address=192.168.1.50\n  static netmask=255.255.255.0" >> /etc/dhcpcd.conf
 # ifconfig eth0 static 192.168.1.50
 # echo "now run raspi-config?"
+
+
+echo "To setup wlan access point, run: ./SnowMeasureLivox-NCAR/setup_WLAN-AP.sh"
+
+#All done
+echo "All done. Please test:\n \thardware UART,\n \tpython -c 'from multiprocessing import shared_memory'\n \trun SnowMeasureLivox.py\n to confirm"
+
 cd SnowMeasureLivox-NCAR
 mkdir build
 cp src/* build/
@@ -97,4 +103,6 @@ cp config/* build/
 cp SnowMeasureLivox.py build/
 cd build
 echo "cd "`pwd`
-echo "run > python ./SnowMeasureLivox.py"
+echo "python ./SnowMeasureLivox.py"
+echo "  or "
+echo "./lidar_lvx_sample"
