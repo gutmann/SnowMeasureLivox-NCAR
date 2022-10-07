@@ -86,12 +86,10 @@ sudo raspi-config nonint do_serial 2
 
 # Append to dhcpcd.conf lines to configure static IP address for ethernet interface
 # Refer to Livox documentation
-sudo echo "# Following lines implement static IP configuration for ethernet interface \ninterface eth0\n  static ip_address=192.168.1.50\n  static netmask=255.255.255.0" >> /etc/dhcpcd.conf
+sudo echo -e "# Following lines implement static IP configuration for ethernet interface \ninterface eth0 \n  static ip_address=192.168.1.50 \n  static netmask=255.255.255.0" >> /etc/dhcpcd.conf
 # ifconfig eth0 static 192.168.1.50
 # echo "now run raspi-config?"
 
-
-echo "To setup wlan access point, run: ./SnowMeasureLivox-NCAR/setup_WLAN-AP.sh"
 
 cd SnowMeasureLivox-NCAR
 mkdir build
@@ -101,8 +99,13 @@ cp SnowMeasureLivox.py build/
 cd build
 
 # All done
-echo "All done. Please test:\n \thardware UART,\n \tpython -c 'from multiprocessing import shared_memory'\n \trun SnowMeasureLivox.py\n to confirm"
+echo -e "All done. Please test: \n hardware UART, \n python -c 'from multiprocessing import shared_memory' \n run SnowMeasureLivox.py \n to confirm"
+echo " "
 echo "cd "`pwd`
 echo "python ./SnowMeasureLivox.py"
-echo "  or "
+echo " "
+echo " or "
+echo " "
 echo "./lidar_lvx_sample"
+echo " "
+echo "To setup wlan access point, run: ./SnowMeasureLivox-NCAR/setup_WLAN-AP.sh"
