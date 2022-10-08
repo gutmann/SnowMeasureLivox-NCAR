@@ -1,6 +1,38 @@
 #!/bin/sh
 
 # directions from https://n4bfr.com/2021/11/raspberry-pi-gps-time-server-with-bullseye/
+
+# first part enables pps if available
+# add to /boot/config.txt ?
+# dtoverlay=pi3-miniuart-bt
+# dtoverlay=pps-gpio,gpiopin=18
+
+# disable bluetooth...?
+# sudo systemctl disable hciuart
+
+# add to /etc/modules
+# pps-gpio
+
+# General update all
+# sudo apt-get update
+# sudo apt-get dist-upgrade
+# sudo rpi-update
+# sudo reboot
+
+# sudo apt-get install pps-tools
+# sudo apt-get install libcap-dev
+# sudo reboot
+
+# test PPS this should show two lines
+# lsmod | grep pps
+
+
+# should say new PPS source...
+# dmesg | grep pps
+
+# sudo ppstest /dev/pps0
+
+
 sudo apt-get install -y gpsd gpsd-clients gpsd-tools
 
 # sudo cat /dev/ttyS0
@@ -21,7 +53,7 @@ START_DAEMON="true"
 GPSD_SOCKET="/var/run/gpsd.sock"
 
 # They need to be read/writeable, either by user gpsd or the group dialout.
-DEVICES="/dev/ttyAMA0"
+DEVICES="/dev/ttyS0"
 
 # Other options you want to pass to gpsd
 GPSD_OPTIONS="-n"

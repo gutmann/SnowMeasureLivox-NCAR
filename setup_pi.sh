@@ -110,4 +110,4 @@ echo " "
 echo "./lidar_lvx_sample"
 echo " "
 echo "To setup wlan access point, run: ./SnowMeasureLivox-NCAR/setup_WLAN-AP.sh"
-echo "To setup gps time, run: ./SnowMeasureLivox-NCAR/setup_gpsd.sh
+echo "To setup gps time, run: ./SnowMeasureLivox-NCAR/setup_gpsd.sh"
