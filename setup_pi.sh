@@ -89,7 +89,10 @@ sudo raspi-config nonint do_serial 2
 # Refer to Livox documentation
 sudo echo -e "# Following lines implement static IP configuration for ethernet interface \ninterface eth0 \n  static ip_address=192.168.1.50 \n  static netmask=255.255.255.0" >> /etc/dhcpcd.conf
 # ifconfig eth0 static 192.168.1.50
-# echo "now run raspi-config?"
+
+# echo "To setup gps time, run: ./SnowMeasureLivox-NCAR/setup_gpsd.sh"
+# setup GPS time tracking if available
+/home/pi/SnowMeasureLivox-NCAR/setup_gpsd.sh
 
 
 cd SnowMeasureLivox-NCAR
@@ -97,7 +100,14 @@ mkdir build
 cp src/* build/
 cp config/* build/
 cp SnowMeasureLivox.py build/
-cd build
+
+# install a cronjob that will run every minute
+cat <<EOF >cron_job.sh
+# m h  dom mon dow   command
+* * * * * /home/pi/SnowMeasureLivox-NCAR/execute.sh
+EOF
+crontab cron_job.sh
+
 
 # All done
 echo -e "All done. Please test: \n hardware UART, \n python -c 'from multiprocessing import shared_memory' \n run SnowMeasureLivox.py \n to confirm"
@@ -110,4 +120,3 @@ echo " "
 echo "./lidar_lvx_sample"
 echo " "
 echo "To setup wlan access point, run: ./SnowMeasureLivox-NCAR/setup_WLAN-AP.sh"
-echo "To setup gps time, run: ./SnowMeasureLivox-NCAR/setup_gpsd.sh"

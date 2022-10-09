@@ -94,6 +94,9 @@ def SensorOperation(sensor_object, number_records, record_duration, shared_dt_st
         #Must stop/start thread for repeat collections
         sensor_object.dataStop()
 
+    #if you want to put the lidar in stand-by mode, not sure exactly what this does, lidar still spins?
+    # might turn off the laser?
+    sensor_object.lidarStandBy()
     #Set lidar to idle state
     sensor_object.lidarSpinDown()
 
@@ -175,16 +178,16 @@ if __name__ == '__main__':
         #Initialize sensor
         SensorInit(sensor, return_mode)
         #Instantiate data processor object with shared values passed as arguments
-        data_handler = pcp.PointCloudProcessor(SHARED_STRING_ARRAY, NULL_POINTS, points_per_record, DATA_READY_4_PROCESSING,
-                                                DATA_PROCESSOR_EMPTY, DATA_PROCESSOR_NOT_COPYING)
+        # data_handler = pcp.PointCloudProcessor(SHARED_STRING_ARRAY, NULL_POINTS, points_per_record, DATA_READY_4_PROCESSING,
+                                                # DATA_PROCESSOR_EMPTY, DATA_PROCESSOR_NOT_COPYING)
         #Bind run method of data processor to a separate process
-        data_process = mp.Process(target=data_handler.run_processing, args=(number_records,))
-        data_process.start()
+        # data_process = mp.Process(target=data_handler.run_processing, args=(number_records,))
+        # data_process.start()
         #Begin LiDAR collection
-        SensorOperation(sensor, number_records, record_duration, SHARED_STRING_ARRAY, DATA_PROCESSOR_EMPTY,
-                        gps, gps_fix_attempts, gps_fix_delay, utc_hour_offset)
+        # SensorOperation(sensor, number_records, record_duration, SHARED_STRING_ARRAY, DATA_PROCESSOR_EMPTY,
+                        # gps, gps_fix_attempts, gps_fix_delay, utc_hour_offset)
         #Join data process after all collections made
-        data_process.join()
+        # data_process.join()
 
         #print("Everything has completed!")
     except:
