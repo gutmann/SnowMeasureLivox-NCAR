@@ -5,10 +5,12 @@ cd /home/pi/SnowMeasureLivox-NCAR/build/
 python ./SnowMeasureLivox.py
 
 # collect data
-data_path=`ls -1 -a /media/pi/ | head -1`
+data_path=`ls -1 /media/pi/ | head -1`
 cd $data_path
 
 date >> ${HOSTNAME}.txt
+
+/home/pi/lidar_lvx_sample
 
 # compress data to save disk space
 for i in *.lvx; do
