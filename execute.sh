@@ -6,7 +6,7 @@ python ./SnowMeasureLivox.py
 
 # collect data
 data_path=`ls -1 /media/pi/ | head -1`
-cd $data_path
+cd /media/pi/${data_path}
 
 date >> ${HOSTNAME}.txt
 
