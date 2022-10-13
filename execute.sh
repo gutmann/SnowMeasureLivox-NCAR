@@ -8,9 +8,12 @@ python ./SnowMeasureLivox.py
 data_path=`ls -1 /media/pi/ | head -1`
 cd /media/pi/${data_path}
 
-date >> ${HOSTNAME}.txt
+# on some setups, accessing the livox too quickly after the python code disconnects fails so sleep for 2 seconds first
+sleep 2
 
+date >> ${HOSTNAME}-pre.txt
 /home/pi/lidar_lvx_sample
+date >> ${HOSTNAME}-post.txt
 
 # compress data to save disk space
 for i in *.lvx; do
